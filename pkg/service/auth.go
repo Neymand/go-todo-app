@@ -19,10 +19,11 @@ func NewAuthService(repo repository.Authorization) *AuthService {
 }
 
 func (s *AuthService) CreateUser(user todo.User) (int, error) {
+	user.Password = generatePasswordHash(user.Password)
 	return s.repo.CreateUser(user)
 }
 
-func (s *Authorization) generatePasswordHash(password string) string {
+func generatePasswordHash(password string) string {
 	hash := sha1.New()
 	hash.Write([]byte(password))
 
